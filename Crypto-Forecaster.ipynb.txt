@@ -1,0 +1,574 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Crypto-Forecaster\n",
+    "This program is supposed fetch current crypto-currency minute-wise, hourly and daily data from the Cryptocompare website for and forecast next 60 minutes close price (for minute data), next 24 hours close price (for hourly data) and next 7 days close price (for daily data). The system has currently been configured for 16 cryptocurrencies at present which can be increased at will. \n",
+    "\n",
+    "## How to use the System?\n",
+    "Please run the next 2 cells while starting the application page for the first time. Next time onwards, you need not run these 2 cells. Everytime, you need to run the 3rd cell only with the mentioned keywords. You need to enter the script-number and the time variable as mentioned below after running the 3rd cell. \n",
+    "\n",
+    "Please check the corresponding script-codes to be entered\n",
+    "## Script-codes\n",
+    "### EOS                 1\n",
+    "### TRX                  2\n",
+    "### ETH                  3\n",
+    "### XMR                  4\n",
+    "### VET                   5\n",
+    "### LTC                  6\n",
+    "### WTC                 7\n",
+    "### XLM                  8\n",
+    "### OMG                9\n",
+    "### BNB               10\n",
+    "### ADA               11\n",
+    "### BAT                12\n",
+    "### LINK              13\n",
+    "### BCH              14\n",
+    "### BTC               15\n",
+    "### WAVES         16\n",
+    "\n",
+    "Please check the time variable to enter\n",
+    "## Time\n",
+    "### Minute        m\n",
+    "### Hour            h\n",
+    "### Day             d"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: requests in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (2.18.4)\n",
+      "Requirement already satisfied: chardet<3.1.0,>=3.0.2 in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from requests) (3.0.4)\n",
+      "Requirement already satisfied: idna<2.7,>=2.5 in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from requests) (2.6)\n",
+      "Requirement already satisfied: urllib3<1.23,>=1.21.1 in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from requests) (1.22)\n",
+      "Requirement already satisfied: certifi>=2017.4.17 in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from requests) (2018.4.16)\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "You are using pip version 18.0, however version 19.3.1 is available.\n",
+      "You should consider upgrading via the 'python -m pip install --upgrade pip' command.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: pandas in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (0.23.0)\n",
+      "Requirement already satisfied: python-dateutil>=2.5.0 in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from pandas) (2.7.3)\n",
+      "Requirement already satisfied: numpy>=1.9.0 in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from pandas) (1.14.3)\n",
+      "Requirement already satisfied: pytz>=2011k in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from pandas) (2018.4)\n",
+      "Requirement already satisfied: six>=1.5 in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from python-dateutil>=2.5.0->pandas) (1.11.0)\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "You are using pip version 18.0, however version 19.3.1 is available.\n",
+      "You should consider upgrading via the 'python -m pip install --upgrade pip' command.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: numpy in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (1.14.3)\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "You are using pip version 18.0, however version 19.3.1 is available.\n",
+      "You should consider upgrading via the 'python -m pip install --upgrade pip' command.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting matplotlyb.pylab\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "  Could not find a version that satisfies the requirement matplotlyb.pylab (from versions: )\n",
+      "No matching distribution found for matplotlyb.pylab\n",
+      "You are using pip version 18.0, however version 19.3.1 is available.\n",
+      "You should consider upgrading via the 'python -m pip install --upgrade pip' command.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting statsmodels.tsa.arima_model\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "  Could not find a version that satisfies the requirement statsmodels.tsa.arima_model (from versions: )\n",
+      "No matching distribution found for statsmodels.tsa.arima_model\n",
+      "You are using pip version 18.0, however version 19.3.1 is available.\n",
+      "You should consider upgrading via the 'python -m pip install --upgrade pip' command.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting sklearn.metrics\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "  Could not find a version that satisfies the requirement sklearn.metrics (from versions: )\n",
+      "No matching distribution found for sklearn.metrics\n",
+      "You are using pip version 18.0, however version 19.3.1 is available.\n",
+      "You should consider upgrading via the 'python -m pip install --upgrade pip' command.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: datetime in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (4.3)\n",
+      "Requirement already satisfied: pytz in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from datetime) (2018.4)\n",
+      "Requirement already satisfied: zope.interface in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from datetime) (4.6.0)\n",
+      "Requirement already satisfied: setuptools in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from zope.interface->datetime) (39.1.0)\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "You are using pip version 18.0, however version 19.3.1 is available.\n",
+      "You should consider upgrading via the 'python -m pip install --upgrade pip' command.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting pyramid.arima\n",
+      "  Using cached https://files.pythonhosted.org/packages/ed/7e/0032cf67571d67e01e0541893014ebeb412dfa973d159c90a8ab73a92ce8/pyramid_arima-0.9.0-cp36-cp36m-win_amd64.whl\n",
+      "Requirement already satisfied: Cython>=0.23 in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from pyramid.arima) (0.28.2)\n",
+      "Requirement already satisfied: statsmodels>=0.9.0 in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from pyramid.arima) (0.9.0)\n",
+      "Requirement already satisfied: scikit-learn>=0.17 in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from pyramid.arima) (0.19.1)\n",
+      "Requirement already satisfied: scipy>=0.9 in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from pyramid.arima) (1.1.0)\n",
+      "Requirement already satisfied: numpy>=1.10 in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from pyramid.arima) (1.14.3)\n",
+      "Requirement already satisfied: pandas>=0.19 in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from pyramid.arima) (0.23.0)\n",
+      "Requirement already satisfied: python-dateutil>=2.5.0 in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from pandas>=0.19->pyramid.arima) (2.7.3)\n",
+      "Requirement already satisfied: pytz>=2011k in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from pandas>=0.19->pyramid.arima) (2018.4)\n",
+      "Requirement already satisfied: six>=1.5 in c:\\users\\subhabahap\\appdata\\local\\continuum\\anaconda3\\lib\\site-packages (from python-dateutil>=2.5.0->pandas>=0.19->pyramid.arima) (1.11.0)\n",
+      "Installing collected packages: pyramid.arima\n",
+      "Successfully installed pyramid.arima\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "You are using pip version 18.0, however version 19.3.1 is available.\n",
+      "You should consider upgrading via the 'python -m pip install --upgrade pip' command.\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Run this cell for the first time using this application\n",
+    "!pip install requests\n",
+    "!pip install pandas\n",
+    "!pip install numpy\n",
+    "!pip install matplotlyb.pylab\n",
+    "!pip install statsmodels.tsa.arima_model\n",
+    "!pip install sklearn.metrics\n",
+    "!pip install datetime\n",
+    "!pip install pyramid.arima"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "C:\\Users\\subhabahap\\AppData\\Local\\Continuum\\anaconda3\\lib\\site-packages\\pyramid\\__init__.py:68: UserWarning: \n",
+      "    The 'pyramid' package will be migrating to a new namespace beginning in \n",
+      "    version 1.0.0: 'pmdarima'. This is due to a package name collision with the\n",
+      "    Pyramid web framework. For more information, see Issue #34:\n",
+      "    \n",
+      "        https://github.com/tgsmith61591/pyramid/issues/34\n",
+      "        \n",
+      "    The package will subsequently be installable via the name 'pmdarima'; the\n",
+      "    only functional change to the user will be the import name. All imports\n",
+      "    from 'pyramid' will change to 'pmdarima'.\n",
+      "    \n",
+      "  \"\"\", UserWarning)\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Run this cell once when you launch this page\n",
+    "import requests\n",
+    "import pandas as pd\n",
+    "import numpy as np \n",
+    "import matplotlib.pylab as plt \n",
+    "%matplotlib inline \n",
+    "from matplotlib.pylab import rcParams\n",
+    "rcParams['figure.figsize'] = 15, 6\n",
+    "from statsmodels.tsa.arima_model import ARIMA\n",
+    "import sklearn.metrics as sk\n",
+    "import datetime as dt  # for dealing with times\n",
+    "from pyramid.arima import auto_arima\n",
+    "\n",
+    "def fetch_crypto_min(script):\n",
+    "    i = 1\n",
+    "    script = str(script)\n",
+    "    while i <= 6:\n",
+    "        if i == 1:\n",
+    "            r3 = requests.get('https://min-api.cryptocompare.com/data/histominute?fsym='+script+'&tsym=USD&limit=2000&api_key=5c279bd07792b0f8dad7ca32c8d53ac176df20141878a1f2fe136af65ab31cea')\n",
+    "            bitdata = r3.json()\n",
+    "            df = pd.DataFrame(bitdata['Data'])\n",
+    "            combined = df[1:2001]\n",
+    "        else:\n",
+    "            dflist1 = df.values.tolist()\n",
+    "            URL = 'https://min-api.cryptocompare.com/data/histominute?fsym='+script+'&tsym=USD&limit=2000&toTs='+str(int(dflist1[0][4]))+'&api_key=5c279bd07792b0f8dad7ca32c8d53ac176df20141878a1f2fe136af65ab31cea'\n",
+    "            r3 = requests.get(URL)\n",
+    "            bitdata = r3.json()\n",
+    "            df = pd.DataFrame(bitdata['Data'])\n",
+    "            df1=df[1:2001]\n",
+    "            combined = pd.concat([df1, combined], axis=0)\n",
+    "        i = i + 1\n",
+    "\n",
+    "    combined.index = [dt.datetime.fromtimestamp(x) for x in combined.time]\n",
+    "    combined.drop(combined.tail(1).index,inplace=True) # drop last n rows\n",
+    "    return combined\n",
+    "\n",
+    "def fetch_crypto_hour(script):\n",
+    "    i = 1\n",
+    "    script = str(script)\n",
+    "    while i <= 10:\n",
+    "        if i == 1:\n",
+    "            r3 = requests.get('https://min-api.cryptocompare.com/data/histohour?fsym='+script+'&tsym=USD&limit=2000&api_key=5c279bd07792b0f8dad7ca32c8d53ac176df20141878a1f2fe136af65ab31cea')\n",
+    "            bitdata = r3.json()\n",
+    "            df = pd.DataFrame(bitdata['Data'])\n",
+    "            combined = df[1:2001]\n",
+    "        else:\n",
+    "            dflist1 = df.values.tolist()\n",
+    "            URL = 'https://min-api.cryptocompare.com/data/histohour?fsym='+script+'&tsym=USD&limit=2000&toTs='+str(int(dflist1[0][4]))+'&api_key=5c279bd07792b0f8dad7ca32c8d53ac176df20141878a1f2fe136af65ab31cea'\n",
+    "            r3 = requests.get(URL)\n",
+    "            bitdata = r3.json()\n",
+    "            df = pd.DataFrame(bitdata['Data'])\n",
+    "            df1=df[1:2001]\n",
+    "            combined = pd.concat([df1, combined], axis=0)\n",
+    "        i = i + 1\n",
+    "\n",
+    "    combined.index = [dt.datetime.fromtimestamp(x) for x in combined.time]\n",
+    "    combined.drop(combined.tail(1).index,inplace=True) # drop last n rows\n",
+    "    return combined\n",
+    "\n",
+    "def fetch_crypto_day(script):\n",
+    "    i = 1\n",
+    "    script = str(script)\n",
+    "    while i <= 1:\n",
+    "        if i == 1:\n",
+    "            r3 = requests.get('https://min-api.cryptocompare.com/data/histoday?fsym='+script+'&tsym=USD&limit=2000&api_key=5c279bd07792b0f8dad7ca32c8d53ac176df20141878a1f2fe136af65ab31cea')\n",
+    "            bitdata = r3.json()\n",
+    "            df = pd.DataFrame(bitdata['Data'])\n",
+    "            combined = df[1:2001]\n",
+    "        else:\n",
+    "            dflist1 = df.values.tolist()\n",
+    "            URL = 'https://min-api.cryptocompare.com/data/histoday?fsym='+script+'&tsym=USD&limit=2000&toTs='+str(int(dflist1[0][4]))+'&api_key=5c279bd07792b0f8dad7ca32c8d53ac176df20141878a1f2fe136af65ab31cea'\n",
+    "            r3 = requests.get(URL)\n",
+    "            bitdata = r3.json()\n",
+    "            df = pd.DataFrame(bitdata['Data'])\n",
+    "            df1=df[1:2001]\n",
+    "            combined = pd.concat([df1, combined], axis=0)\n",
+    "        i = i + 1\n",
+    "\n",
+    "    combined.index = [dt.datetime.fromtimestamp(x) for x in combined.time]\n",
+    "    combined.drop(combined.tail(1).index,inplace=True) # drop last n rows\n",
+    "    return combined\n",
+    "\n",
+    "def forecast_series_min(x):\n",
+    "    stepwise_model = auto_arima(x.close, start_p=1, start_q=1,\n",
+    "                           max_p=3, max_q=3, m=12,\n",
+    "                           start_P=0, seasonal=False,\n",
+    "                           d=1, D=1, trace=True,\n",
+    "                           error_action='ignore',  \n",
+    "                           suppress_warnings=True, \n",
+    "                           stepwise=True)\n",
+    "    future_forecast = stepwise_model.predict(n_periods=60)\n",
+    "    x.iloc[-1][4]\n",
+    "    time_list = []\n",
+    "    a = x.iloc[-1][4]\n",
+    "    i = 1\n",
+    "    while i <= 60:\n",
+    "        a = a + 60.0\n",
+    "        time_list.append(a)\n",
+    "        i = i + 1\n",
+    "    len(time_list)\n",
+    "\n",
+    "    future_forecast_df = pd.DataFrame({'time':time_list,'forecast': future_forecast})\n",
+    "    future_forecast_df.index = [dt.datetime.fromtimestamp(x) for x in future_forecast_df.time]\n",
+    "    #plt.plot(x.close)\n",
+    "    print(future_forecast_df)\n",
+    "    plt.plot(future_forecast_df.forecast)\n",
+    "\n",
+    "def forecast_series_hour(x):\n",
+    "    stepwise_model = auto_arima(x.close, start_p=1, start_q=1,\n",
+    "                           max_p=3, max_q=3, m=12,\n",
+    "                           start_P=0, seasonal=False,\n",
+    "                           d=1, D=1, trace=True,\n",
+    "                           error_action='ignore',  \n",
+    "                           suppress_warnings=True, \n",
+    "                           stepwise=True)\n",
+    "    future_forecast = stepwise_model.predict(n_periods=24)\n",
+    "    x.iloc[-1][4]\n",
+    "    time_list = []\n",
+    "    a = x.iloc[-1][4]\n",
+    "    i = 1\n",
+    "    while i <= 24:\n",
+    "        a = a + 3600.0\n",
+    "        time_list.append(a)\n",
+    "        i = i + 1\n",
+    "    len(time_list)\n",
+    "\n",
+    "    future_forecast_df = pd.DataFrame({'time':time_list,'forecast': future_forecast})\n",
+    "    future_forecast_df.index = [dt.datetime.fromtimestamp(x) for x in future_forecast_df.time]\n",
+    "    #plt.plot(x.close)\n",
+    "    print(future_forecast_df)\n",
+    "    plt.plot(future_forecast_df.forecast)\n",
+    "    \n",
+    "def forecast_series_day(x):\n",
+    "    stepwise_model = auto_arima(x.close, start_p=1, start_q=1,\n",
+    "                           max_p=3, max_q=3, m=12,\n",
+    "                           start_P=0, seasonal=False,\n",
+    "                           d=1, D=1, trace=True,\n",
+    "                           error_action='ignore',  \n",
+    "                           suppress_warnings=True, \n",
+    "                           stepwise=True)\n",
+    "    future_forecast = stepwise_model.predict(n_periods=7)\n",
+    "    x.iloc[-1][4]\n",
+    "    time_list = []\n",
+    "    a = x.iloc[-1][4]\n",
+    "    i = 1\n",
+    "    while i <= 7:\n",
+    "        a = a + 86400.0\n",
+    "        time_list.append(a)\n",
+    "        i = i + 1\n",
+    "    len(time_list)\n",
+    "\n",
+    "    future_forecast_df = pd.DataFrame({'time':time_list,'forecast': future_forecast})\n",
+    "    future_forecast_df.index = [dt.datetime.fromtimestamp(x) for x in future_forecast_df.time]\n",
+    "    #plt.plot(x.close)\n",
+    "    print(future_forecast_df)\n",
+    "    plt.plot(future_forecast_df.forecast)\n",
+    "\n",
+    "def find_script(x):\n",
+    "    if x == '1':\n",
+    "        script = 'EOS'\n",
+    "    elif x == '2':\n",
+    "        script = 'TRX'\n",
+    "    elif x == '3':\n",
+    "        script = 'ETH'\n",
+    "    elif x == '4':\n",
+    "        script = 'XMR'\n",
+    "    elif x == '5':\n",
+    "        script = 'VET'\n",
+    "    elif x == '6':\n",
+    "        script = 'LTC'\n",
+    "    elif x == '7':\n",
+    "        script = 'WTC'\n",
+    "    elif x == '8':\n",
+    "        script = 'XLM'\n",
+    "    elif x == '9':\n",
+    "        script = 'OMG'\n",
+    "    elif x == '10':\n",
+    "        script = 'BNB'\n",
+    "    elif x == '11':\n",
+    "        script = 'ADA'\n",
+    "    elif x == '12':\n",
+    "        script = 'BAT'\n",
+    "    elif x == '13':\n",
+    "        script = 'LINK'\n",
+    "    elif x == '14':\n",
+    "        script = 'BCH'\n",
+    "    elif x == '15':\n",
+    "        script = 'BTC'\n",
+    "    elif x == '16':\n",
+    "        script = 'WAVES'\n",
+    "    else:\n",
+    "        script = 'ERROR'\n",
+    "    return script\n",
+    "\n",
+    "def process_script(x,t):\n",
+    "    a = find_script(x)\n",
+    "    if a == 'ERROR':\n",
+    "        print('The script is not available. Please check.')\n",
+    "    else:\n",
+    "        if t == 'm':\n",
+    "            series = fetch_crypto_min(a)\n",
+    "            forecast_series_min(series)\n",
+    "        elif t == 'h':\n",
+    "            series = fetch_crypto_hour(a)\n",
+    "            forecast_series_hour(series)\n",
+    "        elif t == 'd':\n",
+    "            series = fetch_crypto_day(a)\n",
+    "            forecast_series_day(series)\n",
+    "        else:\n",
+    "            print('Please check time-value input')\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "10\n",
+      "m\n",
+      "Fit ARIMA: order=(1, 1, 1); AIC=-49325.964, BIC=-49297.092, Fit time=7.831 seconds\n",
+      "Fit ARIMA: order=(0, 1, 0); AIC=-49271.507, BIC=-49257.071, Fit time=0.041 seconds\n",
+      "Fit ARIMA: order=(1, 1, 0); AIC=-49324.692, BIC=-49303.038, Fit time=0.130 seconds\n",
+      "Fit ARIMA: order=(0, 1, 1); AIC=-49321.850, BIC=-49300.196, Fit time=0.293 seconds\n",
+      "Fit ARIMA: order=(2, 1, 1); AIC=-49333.063, BIC=-49296.973, Fit time=2.570 seconds\n",
+      "Fit ARIMA: order=(2, 1, 0); AIC=-49327.956, BIC=-49299.084, Fit time=0.256 seconds\n",
+      "Fit ARIMA: order=(2, 1, 2); AIC=-49333.000, BIC=-49289.692, Fit time=2.223 seconds\n",
+      "Fit ARIMA: order=(3, 1, 2); AIC=-49330.503, BIC=-49279.977, Fit time=3.862 seconds\n",
+      "Fit ARIMA: order=(3, 1, 1); AIC=-49332.481, BIC=-49289.172, Fit time=1.964 seconds\n",
+      "Total fit time: 19.176 seconds\n",
+      "                             time   forecast\n",
+      "2020-01-17 16:19:00  1.579258e+09  17.904540\n",
+      "2020-01-17 16:20:00  1.579258e+09  17.906147\n",
+      "2020-01-17 16:21:00  1.579258e+09  17.906748\n",
+      "2020-01-17 16:22:00  1.579258e+09  17.907328\n",
+      "2020-01-17 16:23:00  1.579258e+09  17.907825\n",
+      "2020-01-17 16:24:00  1.579258e+09  17.908276\n",
+      "2020-01-17 16:25:00  1.579258e+09  17.908697\n",
+      "2020-01-17 16:26:00  1.579259e+09  17.909099\n",
+      "2020-01-17 16:27:00  1.579259e+09  17.909489\n",
+      "2020-01-17 16:28:00  1.579259e+09  17.909871\n",
+      "2020-01-17 16:29:00  1.579259e+09  17.910247\n",
+      "2020-01-17 16:30:00  1.579259e+09  17.910621\n",
+      "2020-01-17 16:31:00  1.579259e+09  17.910992\n",
+      "2020-01-17 16:32:00  1.579259e+09  17.911362\n",
+      "2020-01-17 16:33:00  1.579259e+09  17.911732\n",
+      "2020-01-17 16:34:00  1.579259e+09  17.912100\n",
+      "2020-01-17 16:35:00  1.579259e+09  17.912469\n",
+      "2020-01-17 16:36:00  1.579259e+09  17.912837\n",
+      "2020-01-17 16:37:00  1.579259e+09  17.913205\n",
+      "2020-01-17 16:38:00  1.579259e+09  17.913573\n",
+      "2020-01-17 16:39:00  1.579259e+09  17.913941\n",
+      "2020-01-17 16:40:00  1.579259e+09  17.914309\n",
+      "2020-01-17 16:41:00  1.579259e+09  17.914676\n",
+      "2020-01-17 16:42:00  1.579260e+09  17.915044\n",
+      "2020-01-17 16:43:00  1.579260e+09  17.915412\n",
+      "2020-01-17 16:44:00  1.579260e+09  17.915780\n",
+      "2020-01-17 16:45:00  1.579260e+09  17.916147\n",
+      "2020-01-17 16:46:00  1.579260e+09  17.916515\n",
+      "2020-01-17 16:47:00  1.579260e+09  17.916883\n",
+      "2020-01-17 16:48:00  1.579260e+09  17.917251\n",
+      "2020-01-17 16:49:00  1.579260e+09  17.917618\n",
+      "2020-01-17 16:50:00  1.579260e+09  17.917986\n",
+      "2020-01-17 16:51:00  1.579260e+09  17.918354\n",
+      "2020-01-17 16:52:00  1.579260e+09  17.918722\n",
+      "2020-01-17 16:53:00  1.579260e+09  17.919090\n",
+      "2020-01-17 16:54:00  1.579260e+09  17.919457\n",
+      "2020-01-17 16:55:00  1.579260e+09  17.919825\n",
+      "2020-01-17 16:56:00  1.579260e+09  17.920193\n",
+      "2020-01-17 16:57:00  1.579260e+09  17.920561\n",
+      "2020-01-17 16:58:00  1.579260e+09  17.920928\n",
+      "2020-01-17 16:59:00  1.579261e+09  17.921296\n",
+      "2020-01-17 17:00:00  1.579261e+09  17.921664\n",
+      "2020-01-17 17:01:00  1.579261e+09  17.922032\n",
+      "2020-01-17 17:02:00  1.579261e+09  17.922399\n",
+      "2020-01-17 17:03:00  1.579261e+09  17.922767\n",
+      "2020-01-17 17:04:00  1.579261e+09  17.923135\n",
+      "2020-01-17 17:05:00  1.579261e+09  17.923503\n",
+      "2020-01-17 17:06:00  1.579261e+09  17.923870\n",
+      "2020-01-17 17:07:00  1.579261e+09  17.924238\n",
+      "2020-01-17 17:08:00  1.579261e+09  17.924606\n",
+      "2020-01-17 17:09:00  1.579261e+09  17.924974\n",
+      "2020-01-17 17:10:00  1.579261e+09  17.925341\n",
+      "2020-01-17 17:11:00  1.579261e+09  17.925709\n",
+      "2020-01-17 17:12:00  1.579261e+09  17.926077\n",
+      "2020-01-17 17:13:00  1.579261e+09  17.926445\n",
+      "2020-01-17 17:14:00  1.579261e+09  17.926812\n",
+      "2020-01-17 17:15:00  1.579262e+09  17.927180\n",
+      "2020-01-17 17:16:00  1.579262e+09  17.927548\n",
+      "2020-01-17 17:17:00  1.579262e+09  17.927916\n",
+      "2020-01-17 17:18:00  1.579262e+09  17.928283\n"
+     ]
+    },
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "#Run regularly - enter script number and time variable (m, h, d)\n",
+    "script = input()\n",
+    "time = input()\n",
+    "process_script(script,time)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
